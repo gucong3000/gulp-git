@@ -1,23 +1,23 @@
 
-var fs = require('fs');
-var rimraf = require('rimraf');
-var should = require('should');
+const fs = require('fs');
+const rimraf = require('rimraf');
+const should = require('should');
 
 module.exports = function (git) {
-	beforeEach(function (done) {
-		var repo = 'git://github.com/stevelacy/gulp-git';
+	beforeEach(done => {
+		const repo = 'git://github.com/stevelacy/gulp-git';
 		git.clone(repo, {args: './test/tmp'}, done);
 	});
 
-	it('should have cloned project into tmp directory', function (done) {
-		fs.stat('./test/tmp/.git', function (err) {
+	it('should have cloned project into tmp directory', done => {
+		fs.stat('./test/tmp/.git', err => {
 			should.not.exist(err);
 			done();
 		});
 	});
 
-	afterEach(function (done) {
-		rimraf('./test/tmp', function (err) {
+	afterEach(done => {
+		rimraf('./test/tmp', err => {
 			if (err) {
 				return done(err);
 			}

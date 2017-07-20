@@ -1,63 +1,63 @@
 
-var gulp = require('gulp');
-var git = require('../');
+const gulp = require('gulp');
+const git = require('../');
 
 // Init a git repo
 
-gulp.task('init', function () {
+gulp.task('init', () => {
 	git.init();
 });
 
 // Add files
 
-gulp.task('add', function () {
+gulp.task('add', () => {
 	gulp.src('./*')
 		.pipe(git.add());
 });
 
 // Commit files
 
-gulp.task('commit', function () {
+gulp.task('commit', () => {
 	gulp.src('./*', {buffer: false})
 		.pipe(git.commit('initial commit'));
 });
 
 // Commit files with arguments
-gulp.task('commitopts', function () {
+gulp.task('commitopts', () => {
 	gulp.src('./*')
 		.pipe(git.commit('initial commit', {args: '-v'}));
 });
 
 // Commit files using raw arguments, without message checking
-gulp.task('commitraw', function () {
+gulp.task('commitraw', () => {
 	gulp.src('./*')
 		.pipe(git.commit(undefined, {
 			args: '-m "initial commit"',
-			disableMessageRequirement: true
+			disableMessageRequirement: true,
 		}));
 });
 
 // Commit files using raw arguments, without message checking
-gulp.task('commitmulti', function () {
+gulp.task('commitmulti', () => {
 	gulp.src('./*')
 		.pipe(git.commit(['initial commit', 'additional message']));
 });
 
 // Commit files using the multiline option
-gulp.task('commitmultiline', function () {
+gulp.task('commitmultiline', () => {
 	gulp.src('./*')
 		.pipe(git.commit(['initial commit', 'additional message'], {mutiline: true}));
 });
 
 // Commit files with multiline messages
-gulp.task('commitmultiline', function () {
+gulp.task('commitmultiline', () => {
 	gulp.src('./*')
 		.pipe(git.commit('initial commit\nadditional message'));
 });
 
 // Clone remote repo to current directory ($CWD/git-test)
-gulp.task('clone', function () {
-	git.clone('https://github.com/stevelacy/git-test', function (err) {
+gulp.task('clone', () => {
+	git.clone('https://github.com/stevelacy/git-test', err => {
 		if (err) {
 			console.error(err);
 		}
@@ -65,8 +65,8 @@ gulp.task('clone', function () {
 });
 
 // Clone remote repo to sub folder ($CWD/sub/folder/git-test)
-gulp.task('clonesub', function () {
-	git.clone('https://github.com/stevelacy/git-test', {args: './sub/folder'}, function (err) {
+gulp.task('clonesub', () => {
+	git.clone('https://github.com/stevelacy/git-test', {args: './sub/folder'}, err => {
 		if (err) {
 			console.error(err);
 		}
@@ -74,11 +74,11 @@ gulp.task('clonesub', function () {
 });
 
 // Lint js files in index before git commit
-gulp.task('precommit', function () {
-	var eslint = require('gulp-eslint');
+gulp.task('precommit', () => {
+	const eslint = require('gulp-eslint');
 	// Get changes between HEAD and index
 	return git.diff('--cached', {
-		args: '-- *.js'
+		args: '-- *.js',
 	})
 	// Read file contents from git index
 		.pipe(git.catFile())
@@ -92,8 +92,8 @@ gulp.task('precommit', function () {
 
 // Add remote
 
-gulp.task('remote', function () {
-	git.addRemote('origin', 'https://github.com/stevelacy/git-test', function (err) {
+gulp.task('remote', () => {
+	git.addRemote('origin', 'https://github.com/stevelacy/git-test', err => {
 		if (err) {
 			console.error(err);
 		}
@@ -102,8 +102,8 @@ gulp.task('remote', function () {
 
 // Push to remote repo
 
-gulp.task('push', function () {
-	git.push('origin', 'master', function (err) {
+gulp.task('push', () => {
+	git.push('origin', 'master', err => {
 		if (err) {
 			console.error(err);
 		}
@@ -112,8 +112,8 @@ gulp.task('push', function () {
 
 // Pull from remote repo
 
-gulp.task('pull', function () {
-	git.pull('origin', 'master', function (err) {
+gulp.task('pull', () => {
+	git.pull('origin', 'master', err => {
 		if (err) {
 			console.log(err);
 		}
@@ -122,8 +122,8 @@ gulp.task('pull', function () {
 
 // Pull from remote repo with only origin
 
-gulp.task('pull-origin', function () {
-	git.pull('origin', function (err) {
+gulp.task('pull-origin', () => {
+	git.pull('origin', err => {
 		if (err) {
 			console.log(err);
 		}
@@ -132,8 +132,8 @@ gulp.task('pull-origin', function () {
 
 // Pull from all remote branches and tags
 
-gulp.task('pull-all', function () {
-	git.pull(function (err) {
+gulp.task('pull-all', () => {
+	git.pull(err => {
 		if (err) {
 			console.log(err);
 		}
@@ -142,8 +142,8 @@ gulp.task('pull-all', function () {
 
 // Pull from array of branches
 
-gulp.task('pull-array', function () {
-	git.pull('origin', ['master', 'development'], function (err) {
+gulp.task('pull-array', () => {
+	git.pull('origin', ['master', 'development'], err => {
 		if (err) {
 			console.log(err);
 		}
@@ -152,8 +152,8 @@ gulp.task('pull-array', function () {
 
 // Tag the repo
 
-gulp.task('tag', function () {
-	git.tag('v1.1.1', 'Version message', function (err) {
+gulp.task('tag', () => {
+	git.tag('v1.1.1', 'Version message', err => {
 		if (err) {
 			console.error(err);
 		}
@@ -161,32 +161,32 @@ gulp.task('tag', function () {
 });
 
 // Tag the repo WITH signed key
-gulp.task('tagsec', function () {
-	git.tag('v1.1.1', 'Version message with signed key', {signed: true}, function (err) {
+gulp.task('tagsec', () => {
+	git.tag('v1.1.1', 'Version message with signed key', {signed: true}, err => {
 		if (err) {
 			console.error(err);
 		}
 	});
 });
 
-gulp.task('push-tag', function () {
-	git.push('origin', 'v1.1.1', function (err) {
+gulp.task('push-tag', () => {
+	git.push('origin', 'v1.1.1', err => {
 		if (err) {
 			console.error(err);
 		}
 	});
 });
 
-gulp.task('rm', function () {
+gulp.task('rm', () => {
 	gulp.src('./delete')
 		.pipe(git.rm({args: '-f'}));
 });
 
-gulp.task('addSubmodule', function () {
+gulp.task('addSubmodule', () => {
 	git.addSubmodule('https://github.com/stevelacy/git-test', 'git-test', {args: '-b master'});
 });
 
-gulp.task('updateSubmodules', function () {
+gulp.task('updateSubmodules', () => {
 	git.updateSubmodule({args: '--init'});
 });
 

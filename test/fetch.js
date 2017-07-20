@@ -1,16 +1,16 @@
 
 /* global describe, it, after, before, afterEach, beforeEach */
 
-var fs = require('fs');
-var rimraf = require('rimraf');
-var should = require('should');
-var exec = require('child_process').exec;
+const fs = require('fs');
+const rimraf = require('rimraf');
+const should = require('should');
+const exec = require('child_process').exec;
 
 module.exports = function (git) {
-	beforeEach(function (done) {
-		var repo = 'git://github.com/stevelacy/git-test';
-		git.clone(repo, {args: './test/tmp'}, function () {
-			exec('git update-ref -d refs/tags/v1.1.1', {cwd: './test/tmp'}, function (err) {
+	beforeEach(done => {
+		const repo = 'git://github.com/stevelacy/git-test';
+		git.clone(repo, {args: './test/tmp'}, () => {
+			exec('git update-ref -d refs/tags/v1.1.1', {cwd: './test/tmp'}, err => {
 				if (err) {
 					return done(err);
 				}
@@ -19,19 +19,19 @@ module.exports = function (git) {
 		});
 	});
 
-	it('should fetch a tag from remote origin', function (done) {
-		git.fetch('origin', '', {cwd: './test/tmp'}, function () {
-			fs.open('./test/tmp/.git/refs/tags/v1.1.1', 'r', function (err, fd) {
+	it('should fetch a tag from remote origin', done => {
+		git.fetch('origin', '', {cwd: './test/tmp'}, () => {
+			fs.open('./test/tmp/.git/refs/tags/v1.1.1', 'r', (err, fd) => {
 				should.not.exist(err);
-				fs.close(fd, function () {
+				fs.close(fd, () => {
 					done();
 				});
 			});
 		});
 	});
 
-	afterEach(function (done) {
-		rimraf('./test/tmp', function (err) {
+	afterEach(done => {
+		rimraf('./test/tmp', err => {
 			if (err) {
 				return done(err);
 			}

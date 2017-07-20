@@ -1,15 +1,15 @@
 
-var fs = require('fs');
-var should = require('should');
-var gutil = require('gulp-util');
+const fs = require('fs');
+const should = require('should');
+const gutil = require('gulp-util');
 
 module.exports = function (git, util) {
-	it('should add files to the git repo', function (done) {
-		var fakeFile = new gutil.File(util.testFiles[0]);
-		var gitS = git.add();
-		gitS.on('data', function (newFile) {
+	it('should add files to the git repo', done => {
+		const fakeFile = new gutil.File(util.testFiles[0]);
+		const gitS = git.add();
+		gitS.on('data', newFile => {
 			should.exist(newFile);
-			fs.stat('test/repo/.git/objects/', function (err) {
+			fs.stat('test/repo/.git/objects/', err => {
 				should.not.exist(err);
 				done();
 			});
@@ -18,29 +18,29 @@ module.exports = function (git, util) {
 		gitS.end();
 	});
 
-	it('should add multiple files to the git repo', function (done) {
-		var fakeFiles = [];
-		util.testFiles.forEach(function (name) {
+	it('should add multiple files to the git repo', done => {
+		const fakeFiles = [];
+		util.testFiles.forEach(name => {
 			fakeFiles.push(new gutil.File(name));
 		});
-		var gitS = git.add();
-		gitS.on('data', function (newFile) {
+		const gitS = git.add();
+		gitS.on('data', newFile => {
 			should.exist(newFile);
-			fs.stat('test/repo/.git/objects/', function (err) {
+			fs.stat('test/repo/.git/objects/', err => {
 				should.not.exist(err);
 			});
 		});
-		fakeFiles.forEach(function (file) {
+		fakeFiles.forEach(file => {
 			gitS.write(file);
 		});
 		gitS.end(done);
 	});
 
-	it('should fire an end event', function (done) {
-		var fakeFile = new gutil.File(util.testFiles[0]);
-		var gitS = git.add();
+	it('should fire an end event', done => {
+		const fakeFile = new gutil.File(util.testFiles[0]);
+		const gitS = git.add();
 
-		gitS.on('end', function () {
+		gitS.on('end', () => {
 			done();
 		});
 

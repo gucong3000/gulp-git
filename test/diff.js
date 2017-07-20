@@ -1,15 +1,15 @@
 
-var should = require('should');
+const should = require('should');
 
 module.exports = function (git) {
-	it('diff files', function (done) {
-		var diffFile = [];
-		git.diff('1.12.0...1.13.0').on('data', function (file) {
+	it('diff files', done => {
+		const diffFile = [];
+		git.diff('1.12.0...1.13.0').on('data', file => {
 			diffFile.push(file);
-		}).on('finish', function () {
-			var subPath = [];
-			var diffInfo = [];
-			diffFile.forEach(function (file) {
+		}).on('finish', () => {
+			const subPath = [];
+			const diffInfo = [];
+			diffFile.forEach(file => {
 				subPath.push(file.relative.replace(/\\/g, '/'));
 				diffInfo.push(file.git.diff);
 				should(file.isNull()).not.be.ok();
@@ -22,7 +22,7 @@ module.exports = function (git) {
 					dstHash: '3834582',
 					status: 'M',
 					srcPath: 'LICENSE',
-					dstPath: 'LICENSE'
+					dstPath: 'LICENSE',
 				},
 				{srcMode: '100644',
 					dstMode: '100644',
@@ -30,7 +30,7 @@ module.exports = function (git) {
 					dstHash: 'd79e3b2',
 					status: 'M',
 					srcPath: 'README.md',
-					dstPath: 'README.md'
+					dstPath: 'README.md',
 				},
 				{srcMode: '100644',
 					dstMode: '100644',
@@ -38,7 +38,7 @@ module.exports = function (git) {
 					dstHash: 'cdebb2e',
 					status: 'M',
 					srcPath: 'lib/tag.js',
-					dstPath: 'lib/tag.js'
+					dstPath: 'lib/tag.js',
 				},
 				{srcMode: '100644',
 					dstMode: '100644',
@@ -46,8 +46,8 @@ module.exports = function (git) {
 					dstHash: '1ade7a9',
 					status: 'M',
 					srcPath: 'package.json',
-					dstPath: 'package.json'
-				}
+					dstPath: 'package.json',
+				},
 			]);
 			done();
 		}).on('error', done);

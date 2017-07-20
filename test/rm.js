@@ -1,15 +1,15 @@
 
-var fs = require('fs');
-var gutil = require('gulp-util');
+const fs = require('fs');
+const gutil = require('gulp-util');
 
 module.exports = function (git, util) {
-	it('should rm a file', function (done) {
-		var opt = {args: '-f', cwd: 'test/repo'};
-		var fakeFile = new gutil.File(util.testFiles[0]);
-		var gitS = git.rm(opt);
-		gitS.once('data', function (newFile) {
-			setTimeout(function () {
-				fs.exists('test/repo/' + newFile, function (exists) {
+	it('should rm a file', done => {
+		const opt = {args: '-f', cwd: 'test/repo'};
+		const fakeFile = new gutil.File(util.testFiles[0]);
+		const gitS = git.rm(opt);
+		gitS.once('data', newFile => {
+			setTimeout(() => {
+				fs.exists('test/repo/' + newFile, exists => {
 					exists.should.be.false();
 				});
 				done();
@@ -19,21 +19,21 @@ module.exports = function (git, util) {
 		gitS.end();
 	});
 
-	it('should rm multiple files', function (done) {
-		var fakeFiles = [];
-		util.testFiles.slice(1).forEach(function (file) {
+	it('should rm multiple files', done => {
+		const fakeFiles = [];
+		util.testFiles.slice(1).forEach(file => {
 			fakeFiles.push(new gutil.File(file));
 		});
 
-		var opt = {args: '-f', cwd: 'test/repo'};
-		var gitS = git.rm(opt);
-		gitS.on('data', function (newFile) {
-			fs.exists('test/repo/' + newFile, function (exists) {
+		const opt = {args: '-f', cwd: 'test/repo'};
+		const gitS = git.rm(opt);
+		gitS.on('data', newFile => {
+			fs.exists('test/repo/' + newFile, exists => {
 				exists.should.be.false();
 			});
 		});
 		gitS.once('end', done);
-		fakeFiles.forEach(function (fake) {
+		fakeFiles.forEach(fake => {
 			gitS.write(fake);
 		});
 		gitS.end();

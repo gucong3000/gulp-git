@@ -1,26 +1,26 @@
 
-var fs = require('fs');
-var should = require('should');
+const fs = require('fs');
+const should = require('should');
 
 module.exports = function (git) {
-	it('should create a new branch', function (done) {
-		var opt = {cwd: './test/repo/'};
-		git.branch('testBranch', opt, function () {
-			fs.stat('test/repo/.git/refs/heads/testBranch', function (err) {
+	it('should create a new branch', done => {
+		const opt = {cwd: './test/repo/'};
+		git.branch('testBranch', opt, () => {
+			fs.stat('test/repo/.git/refs/heads/testBranch', err => {
 				should.not.exist(err);
 				done();
 			});
 		});
 	});
 
-	it('should create new branch, checkout and return its name', function (done) {
-		var opt = {cwd: './test/repo/'};
-		git.branch('anotherBranch', opt, function () {
-			fs.stat('test/repo/.git/refs/heads/anotherBranch', function (err) {
+	it('should create new branch, checkout and return its name', done => {
+		let opt = {cwd: './test/repo/'};
+		git.branch('anotherBranch', opt, () => {
+			fs.stat('test/repo/.git/refs/heads/anotherBranch', err => {
 				should.not.exist(err);
-				git.checkout('anotherBranch', opt, function () {
+				git.checkout('anotherBranch', opt, () => {
 					opt = {args: '--abbrev-ref HEAD', cwd: opt.cwd};
-					git.revParse(opt, function (err, branch) {
+					git.revParse(opt, (err, branch) => {
 						branch.should.equal('anotherBranch');
 						should.not.exist(err);
 						done();

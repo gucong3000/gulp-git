@@ -1,9 +1,9 @@
 
-var should = require('should');
+const should = require('should');
 
 module.exports = function (git) {
-	it.skip('should pull from the remote repo', function (done) {
-		git.pull('origin', 'master', {cwd: './test/'}, function () {
+	it.skip('should pull from the remote repo', done => {
+		git.pull('origin', 'master', {cwd: './test/'}, () => {
 			should.exist('./test/.git/refs/heads/master');
 			done();
 		});

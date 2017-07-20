@@ -1,27 +1,27 @@
 /* global beforeEach, it, afterEach */
 
-var fs = require('fs');
-var rimraf = require('rimraf');
+const fs = require('fs');
+const rimraf = require('rimraf');
 
 module.exports = function (git) {
-	var repoPath = './test/tmp';
+	const repoPath = './test/tmp';
 
-	beforeEach(function (done) {
-		var repo = 'git://github.com/stevelacy/git-test';
+	beforeEach(done => {
+		const repo = 'git://github.com/stevelacy/git-test';
 		git.clone(repo, {args: repoPath}, done);
 	});
 
-	it('should remove an untracked file from the repo', function (done) {
-		var filePath = repoPath + '/test.txt';
-		fs.writeFile(filePath, 'Hello git clean test', function (err) {
+	it('should remove an untracked file from the repo', done => {
+		const filePath = repoPath + '/test.txt';
+		fs.writeFile(filePath, 'Hello git clean test', err => {
 			if (err) {
 				return done(err);
 			}
-			git.clean({cwd: repoPath, args: '-f'}, function (err) {
+			git.clean({cwd: repoPath, args: '-f'}, err => {
 				if (err) {
 					return done(err);
 				}
-				fs.stat(filePath, function (err) {
+				fs.stat(filePath, err => {
 					if (err) {
 						return done();
 					}
@@ -31,8 +31,8 @@ module.exports = function (git) {
 		});
 	});
 
-	afterEach(function (done) {
-		rimraf('./test/tmp', function (err) {
+	afterEach(done => {
+		rimraf('./test/tmp', err => {
 			if (err) {
 				return done(err);
 			}

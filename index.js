@@ -13,6 +13,6 @@ module.exports = new Proxy(
 	{
 		get: (target, prop) => (
 			Git.prototype[prop] || getGit()[prop] || target[prop]
-		)
+		),
 	}
 );

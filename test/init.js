@@ -1,14 +1,14 @@
 
-var fs = require('fs');
-var should = require('should');
+const fs = require('fs');
+const should = require('should');
 
 module.exports = function (git) {
-	before(function (done) {
+	before(done => {
 		git.init({cwd: './test/repo/'}, done);
 	});
 
-	it('should initialize a empty git repo', function (done) {
-		fs.stat('test/repo/.git/', function (err) {
+	it('should initialize a empty git repo', done => {
+		fs.stat('test/repo/.git/', err => {
 			should.not.exist(err);
 			done();
 		});
