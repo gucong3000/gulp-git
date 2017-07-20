@@ -11,17 +11,21 @@
   "main": "./index.js",
   "dependencies": {
     "any-shell-escape": "^0.1.1",
+    "debug": "^2.6.8",
+    "get-stream": "^3.0.0",
     "gulp-util": "^3.0.8",
+    "lodash.pick": "^4.4.0",
     "require-dir": "^0.3.2",
+    "spawn-to-readstream": "^0.1.3",
     "strip-bom-stream": "^3.0.0",
     "through2": "^2.0.3",
-    "vinyl": "^2.0.1"
+    "vinyl": "^2.1.0"
   },
   "devDependencies": {
-    "eslint": "^3.17.0",
-    "mocha": "^3.2.0",
+    "eslint": "^4.2.0",
+    "mocha": "^3.4.2",
     "rimraf": "^2.6.1",
-    "should": "^11.2.0"
+    "should": "^11.2.1"
   },
   "scripts": {
     "docs": "rimraf docs/* && jsdoc ./index.js ./lib --recurse --destination ./docs",
