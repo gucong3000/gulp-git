@@ -17,11 +17,13 @@
     "lodash.pick": "^4.4.0",
     "require-dir": "^0.3.2",
     "spawn-to-readstream": "^0.1.3",
+    "split": "^1.0.0",
     "strip-bom-stream": "^3.0.0",
     "through2": "^2.0.3",
     "vinyl": "^2.1.0"
   },
   "devDependencies": {
+    "argv-formatter": "^1.0.0",
     "eslint": "^4.2.0",
     "eslint-config-xo": "^0.18.2",
     "mocha": "^3.4.2",
